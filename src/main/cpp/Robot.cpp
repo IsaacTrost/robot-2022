@@ -3,9 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-
+#include <iostream>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <photonlib/PhotonUtils.h>
+
+
 
 void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("auto_slot", 0);
@@ -22,6 +25,24 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
    frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+  photonlib::PhotonPipelineResult result = camera.GetLatestResult();
+  if(result.HasTargets()){
+    photonlib::PhotonTrackedTarget target = result.GetBestTarget();
+    wpi::outs() << "\nyaw:";
+    wpi::outs() << std::to_string(target.GetYaw());
+    wpi::outs() <<  "\npitch"; 
+    wpi::outs() << std::to_string(target.GetPitch());
+    wpi::outs() << "\nskew";
+    wpi::outs() << std::to_string(target.GetSkew());
+    
+    std::cout << "dist est" << photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+          units::degree_t{result.GetBestTarget().GetPitch()}).value();
+
+
+
+  }
+  
 }
 
 /**
