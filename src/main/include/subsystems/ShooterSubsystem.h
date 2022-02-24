@@ -41,12 +41,12 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void setTurretAngle(double TurretAngle) {
     turretAngle = TurretAngle;
   };
-  double getTurretAngle() {
+  double getTurretAngle(){
     return turretAngle;
   };
   void adjustHoodAngle();
   void adjustTurretAngle();
-  
+
  private:
   
   rev::CANSparkMax *m_shooterMotor1;

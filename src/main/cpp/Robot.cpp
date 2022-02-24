@@ -35,9 +35,18 @@ void Robot::RobotPeriodic() {
     wpi::outs() << "\nskew";
     wpi::outs() << std::to_string(target.GetSkew());
     
-    std::cout << "dist est" << photonlib::PhotonUtils::CalculateDistanceToTarget(
+    wpi::outs() << "dist est";
+    wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
           Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
-          units::degree_t{result.GetBestTarget().GetPitch()}).value();
+          units::degree_t{result.GetBestTarget().GetPitch()}).value());
+    frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
+    frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
+    frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
+    frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+          units::degree_t{result.GetBestTarget().GetPitch()}).value());
+      
+    
 
 
 
